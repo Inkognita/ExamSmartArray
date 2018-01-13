@@ -32,6 +32,11 @@ class Student {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return ((Student) obj).surname.equals(surname) && ((Student) obj).name.equals(name);
+    }
+
+    @Override
     public String toString() {
         return "" + surname + " " + name;
     }
