@@ -1,7 +1,5 @@
 package ua.edu.ucu.smartarr;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.*;
 
 // Remove duplicates from SmartArray. Use method equals() to compare objects
@@ -14,10 +12,20 @@ public class DistinctDecorator extends SmartArrayDecorator {
     @Override
     public Object[] toArray() {
         List<Object> list = new ArrayList<>();
+        boolean br = false;
         for (Object o : smartArray.toArray()) {
-            if(!list.contains(o)){
-                list.add(o);
+            br = false;
+            for (Object o1 : list) {
+                if(o1.equals(o))
+                {
+                    br = true;
+                    break;
+                }
             }
+            if(br){
+                continue;
+            }
+            list.add(o);
         }
         return list.toArray();
     }

@@ -1,6 +1,9 @@
 package ua.edu.ucu;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import ua.edu.ucu.functions.MyComparator;
 import ua.edu.ucu.functions.MyFunction;
 import ua.edu.ucu.functions.MyPredicate;
@@ -51,10 +54,34 @@ public class SmartArrayApp {
 
     public static String[]
             findDistinctStudentNamesFrom2ndYearWithGPAgt4AndOrderedBySurname(Student[] students) {
+        SmartArray sa = new BaseArray(students);
+        sa = new DistinctDecorator(sa);
 
+        MyPredicate pr = new MyPredicate() {
+            @Override
+            public boolean test(Object t) {
+                return (((Student) t).getYear() == 2) && (((Student) t).getGPA() > 4);
+            }
+        };
+
+        MyComparator cmp = new MyComparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return ((Student) o1).getSurname().compareTo(((Student) o2).getSurname());
+            }
+        };
+
+
+        sa = new SortDecorator(new FilterDecorator(sa, pr), cmp);
+
+        String[] res = new String[sa.size()];
+        Object[] obj = sa.toArray();
+        for (int i = 0; i < obj.length; i++) {
+            res[i] = ((Student)obj[i]).toString();
+        }
         // Hint: to convert Object[] to String[] - use the following code
         //Object[] result = studentSmartArray.toArray();
         //return Arrays.copyOf(result, result.length, String[].class);
-        return null;
+        return res;
     }
 }
